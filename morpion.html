@@ -15,62 +15,52 @@
     var x = 2;
     var y = 2;
 
+	var player = function(nom, age){
+		this.nom = nom;
+		this.age = age;
+		this.click = function(){
+			alert(this.nom);
+		}
+	};
 
-    var jeton =  function(){
-        var id = null;
-        var type = null;
-        var color = null;
-        var click = function(){
-            alert('bip bip');
-        }
-    };
-
-    var valentinJeton = new jeton();
-    valentinJeton.id = 1;
-    valentinJeton.type = 'ROND';
-    valentinJeton.color = 'blue';
-    valentinJeton.click = function() { alert(' hello valentin');}
-
-    var plateau = new Array();
+	
+	var valentin = new player('valetin', 19);
+	var fabien = new player('fabien', 25);
+	
+    var game = {};
+	game.id = null;
+	game.name = 'Mon premier plateau';
+	game.regle = '';
+	game.active = true;
+	game.plateau = new Array();
+	game.player1 = valentin;
+	game.player2 = fabien;
 
     for(var i = 0; i <= y; i++){
 
-        plateau[i] = new Array();
+        game.plateau[i] = new Array();
 
         for(var j = 0; j <= x; j++){
 
-            plateau[i][j] = valentinJeton;
-
-
-        }
-    }
-
-    var $tableau = $('#tableau');
-
-    for(var i in plateau){
-
-        $tableau.append('<tr id="tr-'+i+'"></tr>');
-
-        var $tr = $('#tr-'+i);
-
-        for(var j in plateau[i]){
-
-            $tr.append('<td class="clickclik" x="'+i+'" y="'+j+'" id="td-'+i+'-'+j+'">'+JSON.stringify(plateau[i][j])+'</td>');
+            game.plateau[i][j] = null;
 
         }
     }
-
-    $('td.clickclik').click(function(){
-        var $this = $(this);
-        var x = $this.attr('x');
-        var y = $this.attr('y');
-
-        var element = plateau[y][x];
-        console.log(element);
-        element.click();
-
-    });
-
+	
+	console.log(game);
+	console.log(game.plateau);
+	
+	
+	var vehicule = function(){
+		this.nbpassager=null;
+	}
+	var vehicule4roue = function(){
+		this.vitesse = 4;
+	}
+	var ferrari = function(){
+		this.accelaration = 15;
+	}
+	
 </script>
 </body>
 </html>
