@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -8,6 +9,11 @@
 </style>
 </head>
 <body>
+<form onSubmit="return injectPlayer(this);">
+    <input type="text" placeholder="Player 1" name="player1" id="player1"/>
+    <input type="text" placeholder="Player 2" name="player2" id="player2"/>
+    <input type="submit"/>
+</form>
 <table cellpadding=0 cellspacing=0 id="tableau">
 </table>
 <script>
@@ -15,17 +21,19 @@
     var x = 2;
     var y = 2;
 
-	var player = function(nom, age){
-		this.nom = nom;
-		this.age = age;
-		this.click = function(){
-			alert(this.nom);
-		}
-	};
+    var datasquare = function(value){
+        this.value = value;
+    };
 
-	
-	var valentin = new player('valetin', 19);
-	var fabien = new player('fabien', 25);
+    var square = function(){
+        this.x = null;
+        this.y = null;
+        this.data = null;
+    };
+
+	var player = function(nom){
+		this.nom = nom;
+	};
 	
     var game = {};
 	game.id = null;
@@ -33,8 +41,8 @@
 	game.regle = '';
 	game.active = true;
 	game.plateau = new Array();
-	game.player1 = valentin;
-	game.player2 = fabien;
+	game.player1 = player1;
+	game.player2 = player2;
 
     for(var i = 0; i <= y; i++){
 
@@ -42,25 +50,60 @@
 
         for(var j = 0; j <= x; j++){
 
-            game.plateau[i][j] = null;
+            var reelsquare = new square();
+            reelsquare.x = i;
+            reelsquare.y = j;
+            reelsquare.data = new datasquare(null);
+            game.plateau[i][j] = reelsquare;
 
         }
     }
-	
-	console.log(game);
-	console.log(game.plateau);
-	
-	
-	var vehicule = function(){
-		this.nbpassager=null;
-	}
-	var vehicule4roue = function(){
-		this.vitesse = 4;
-	}
-	var ferrari = function(){
-		this.accelaration = 15;
-	}
-	
+
+    var $tableau = $('#tableau');
+
+    for(var i in game.plateau){
+
+        $tableau.append('<tr id="tr-'+i+'"></tr>');
+
+        var $tr = $('#tr-'+i);
+
+        for(var j in game.plateau[i]){
+
+            $tr.append('<td class="clickclik" x="'+i+'" y="'+j+'" id="td-'+i+'-'+j+'">'+JSON.stringify(game.plateau[i][j])+'</td>');
+
+        }
+    }
+
+    $('td.clickclik').click(function(){
+        var $this = $(this);
+        var x = $this.attr('x');
+        var y = $this.attr('y');
+    });
+
+    function injectPlayer(form){
+
+        var $form = $(form);
+        var nameplayer1 = $('#player1', $form).val();
+        var nameplayer2 = $('#player2', $form).val();
+
+        if(game.player1 === null){
+            var player1 = new player(nameplayer1, 19);
+            game.player1 = player1;
+        }else{
+            game.player1.nom = nameplayer1;
+        }
+        if(game.player2 === null){
+            var player2 = new player(nameplayer2, 25);
+            game.player2 = player2;
+        }else{
+            game.player2.nom = nameplayer2;
+        }
+
+        console.log(game);
+
+        return false;
+    }
+
 </script>
 </body>
 </html>
