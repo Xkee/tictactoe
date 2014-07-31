@@ -1,54 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<style>
-    td{
-        border:1px SOLID #000;
-    }
-</style>
+    <meta charset="utf-8">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/foundation.css"/>
+    <script src="js/vendor/modernizr.js"></script>
+    <style>
+        td {
+            border: 1px SOLID #000;
+        }
+    </style>
 </head>
 <body>
-<form onSubmit="return injectPlayer(this);">
-    <input type="text" placeholder="Player 1" name="player1" id="player1"/>
-    <input type="text" placeholder="Player 2" name="player2" id="player2"/>
-    <input type="submit"/>
-</form>
-<table cellpadding=0 cellspacing=0 id="tableau">
-</table>
+
+<div class="row">
+    <div class="small-12 columns text-center">
+        <h1>
+            TIC TAC TOE GAME
+        </h1>
+    </div>
+</div>
+
+
+<div class="row" id="game_info">
+    <div class="small-6 columns text-left">
+        <h6 id="player_1">
+            joueur1
+        </h6>
+    </div>
+    <div class="small-6 columns text-right">
+        <h6 id="player_2">
+            joueur 2
+        </h6>
+    </div>
+</div>
+
+<div class="row" id="login_form">
+    <div class="small-6 small-centered columns text-center panel">
+        <h2>Création partie</h2>
+
+        <form onSubmit="return injectPlayer(this);">
+            <input type="text" placeholder="Player 1" name="player1" id="player1"/>
+            <input type="text" placeholder="Player 2" name="player2" id="player2"/>
+            <input type="submit" class="button medium"/>
+        </form>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="small-12 columns text-center">
+
+        <table cellpadding=0 cellspacing=0 id="tableau" style="width:100%;">
+        </table>
+
+    </div>
+</div>
 <script>
 
     var x = 2;
     var y = 2;
 
-    var datasquare = function(value){
+    var datasquare = function (value) {
         this.value = value;
     };
 
-    var square = function(){
+    var square = function () {
         this.x = null;
         this.y = null;
         this.data = null;
     };
 
-	var player = function(nom){
-		this.nom = nom;
-	};
-	
-    var game = {};
-	game.id = null;
-	game.name = 'Mon premier plateau';
-	game.regle = '';
-	game.active = true;
-	game.plateau = new Array();
-	game.player1 = player1;
-	game.player2 = player2;
+    var player = function (nom) {
+        this.nom = nom;
+    };
 
-    for(var i = 0; i <= y; i++){
+    var game = {};
+    game.id = null;
+    game.name = 'Mon premier plateau';
+    game.regle = '';
+    game.active = true;
+    game.plateau = new Array();
+    game.player1 = player1;
+    game.player2 = player2;
+
+    for (var i = 0; i <= y; i++) {
 
         game.plateau[i] = new Array();
 
-        for(var j = 0; j <= x; j++){
+        for (var j = 0; j <= x; j++) {
 
             var reelsquare = new square();
             reelsquare.x = i;
@@ -61,50 +101,56 @@
 
     var $tableau = $('#tableau');
 
-    for(var i in game.plateau){
+    for (var i in game.plateau) {
 
-        $tableau.append('<tr id="tr-'+i+'"></tr>');
+        $tableau.append('<tr id="tr-' + i + '"></tr>');
 
-        var $tr = $('#tr-'+i);
+        var $tr = $('#tr-' + i);
 
-        for(var j in game.plateau[i]){
+        for (var j in game.plateau[i]) {
 
-            $tr.append('<td class="clickclik" x="'+i+'" y="'+j+'" id="td-'+i+'-'+j+'">'+JSON.stringify(game.plateau[i][j])+'</td>');
+            $tr.append('<td class="clickclik" x="' + i + '" y="' + j + '" id="td-' + i + '-' + j + '">' + JSON.stringify(game.plateau[i][j]) + '</td>');
 
         }
     }
 
-    $('td.clickclik').click(function(){
+    $('td.clickclik').click(function () {
         var $this = $(this);
         var x = $this.attr('x');
         var y = $this.attr('y');
     });
 
-    function injectPlayer(form){
+    $tableau.hide();
+
+    function injectPlayer(form) {
 
         var $form = $(form);
-        var nameplayer1 = $('#player1', $form).val();
-        var nameplayer2 = $('#player2', $form).val();
+        var $nameplayer1 = $('#player1', $form).val();
+        var $nameplayer2 = $('#player2', $form).val();
 
-        if(game.player1 === null){
-            var player1 = new player(nameplayer1, 19);
+        //validation
+        if ($nameplayer1.length === 0 || $nameplayer2.length === 0) {
+            return false;
+        }
+
+        if (game.player1 === null) {
+            var player1 = new player($nameplayer1, 19);
             game.player1 = player1;
-        }else{
-            game.player1.nom = nameplayer1;
+        } else {
+            game.player1.nom = $nameplayer1;
         }
-        if(game.player2 === null){
-            var player2 = new player(nameplayer2, 25);
+        if (game.player2 === null) {
+            var player2 = new player($nameplayer2, 25);
             game.player2 = player2;
-        }else{
-            game.player2.nom = nameplayer2;
+        } else {
+            game.player2.nom = $nameplayer2;
         }
 
-        console.log(game);
+        $('#login_form').hide();
+        $tableau.show();
 
         return false;
     }
-	
-	//rererer
 
 </script>
 </body>
