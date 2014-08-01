@@ -24,13 +24,11 @@
 
 <div class="row" id="game_info">
     <div class="small-6 columns text-left">
-        <h6 id="player_1">
-            joueur1
+        <h6 id="info_player1">
         </h6>
     </div>
     <div class="small-6 columns text-right">
-        <h6 id="player_2">
-            joueur 2
+        <h6 id="info_player2">
         </h6>
     </div>
 </div>
@@ -40,8 +38,8 @@
         <h2>Création partie</h2>
 
         <form onSubmit="return injectPlayer(this);">
-            <input type="text" placeholder="Player 1" name="player1" id="player1"/>
-            <input type="text" placeholder="Player 2" name="player2" id="player2"/>
+            <input type="text" placeholder="Player 1" name="player1" id="input_player1"/>
+            <input type="text" placeholder="Player 2" name="player2" id="input_player2"/>
             <input type="submit" class="button medium"/>
         </form>
 
@@ -56,6 +54,13 @@
 
     </div>
 </div>
+
+<div class="row">
+    <div class="small-12 columns text-center" id="test">
+
+    </div>
+</div>
+
 <script>
 
     var x = 2;
@@ -71,8 +76,9 @@
         this.data = null;
     };
 
-    var player = function (nom) {
+    var player = function (nom, symbol) {
         this.nom = nom;
+        this.symbol = symbol;
     };
 
     var game = {};
@@ -81,8 +87,8 @@
     game.regle = '';
     game.active = true;
     game.plateau = new Array();
-    game.player1 = player1;
-    game.player2 = player2;
+    game.player1 = null;
+    game.player2 = null;
 
     for (var i = 0; i <= y; i++) {
 
@@ -125,8 +131,8 @@
     function injectPlayer(form) {
 
         var $form = $(form);
-        var $nameplayer1 = $('#player1', $form).val();
-        var $nameplayer2 = $('#player2', $form).val();
+        var $nameplayer1 = $('#input_player1', $form).val();
+        var $nameplayer2 = $('#input_player2', $form).val();
 
         //validation
         if ($nameplayer1.length === 0 || $nameplayer2.length === 0) {
@@ -134,20 +140,31 @@
         }
 
         if (game.player1 === null) {
-            var player1 = new player($nameplayer1, 19);
+            var player1 = new player($nameplayer1, 'O');
             game.player1 = player1;
         } else {
             game.player1.nom = $nameplayer1;
         }
         if (game.player2 === null) {
-            var player2 = new player($nameplayer2, 25);
+            var player2 = new player($nameplayer2, 'X');
             game.player2 = player2;
         } else {
             game.player2.nom = $nameplayer2;
         }
 
+
+        $('#info_player1').html(game.player1.nom + ' - ' + game.player1.symbol);
+        $('#info_player2').html(game.player2.nom + ' - ' + game.player2.symbol);
+
         $('#login_form').hide();
         $tableau.show();
+
+
+        var valentin = new player('toto', 'T');
+
+        console.log(valentin);
+
+        console.log(game);
 
         return false;
     }
