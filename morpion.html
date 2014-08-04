@@ -10,15 +10,16 @@
             border: 1px SOLID #000;
         }
     </style>
-	<title> TIC TAC TOE </title>
+    <title> TIC TAC TOE </title>
 </head>
 <body>
 
-<div>
-<img src="img/logo.gif" alt="morpion" id="logo" class="small-1 columns "/>
-</div>
 <div class="row">
-    <div class="small-12 columns text-center">
+    <div class="small-2 columns">
+        <img src="img/logo.gif" alt="morpion" id="logo">
+    </div>
+
+    <div class="small-10 columns text-center">
         <h1>
             TIC TAC TOE GAME
         </h1>
@@ -50,12 +51,12 @@
 </div>
 
 <div class="row" id="regle">
-	<div class="small-12 small-centered columns text-center panel">
-	<p> REGLES : </br> Les joueurs inscrivent tour à tour leur symbole sur une grille qui n'a pas de limites ou qui n'a que celles du papier sur lequel on joue.
-	Le premier qui parvient à aligner trois de ses symboles gagne un point. </p>
-	</div>
+    <div class="small-12 small-centered columns text-center panel">
+        <p> REGLES : </br> Les joueurs inscrivent tour à tour leur symbole sur une grille qui n'a pas de limites ou qui
+            n'a que celles du papier sur lequel on joue.
+            Le premier qui parvient à aligner trois de ses symboles gagne un point. </p>
+    </div>
 </div>
-
 
 
 <div class="row">
@@ -71,13 +72,14 @@
     <div class="small-12 columns text-center" id="test">
 
     </div>
-	
 </div>
 
-<div class="button columns" id="retour">
-
-	<a href=""> retour </a>
-	
+<div class="row" id="div-retour">
+    <div class="small-12 columns text-center">
+        <a class="button large" href="javascript:void(0);" onClick="resetGame();">
+            retour
+        </a>
+    </div>
 </div>
 
 <script>
@@ -123,7 +125,7 @@
 
         }
     }
-	
+
     var $tableau = $('#tableau');
 
     for (var i in game.plateau) {
@@ -143,10 +145,15 @@
         var $this = $(this);
         var x = $this.attr('x');
         var y = $this.attr('y');
+        console.log('je click');
     });
-	
-	$('#retour').hide();
+
+    $('#div-retour').hide();
     $tableau.hide();
+
+
+
+    /************************************************************************************************************/
 
     function injectPlayer(form) {
 
@@ -175,12 +182,11 @@
 
         $('#info_player1').html(game.player1.nom + ' - ' + game.player1.symbol);
         $('#info_player2').html(game.player2.nom + ' - ' + game.player2.symbol);
-		$('#retour').show();
-		$('#regle').hide();
+        $('#div-retour').show();
+        $('#regle').hide();
         $('#login_form').hide();
         $tableau.show();
-		
-		
+        $('#game_info').show();
 
 
         var valentin = new player('toto', 'T');
@@ -190,6 +196,20 @@
         console.log(game);
 
         return false;
+    }
+
+    function hideElement(elements){
+        for (var i in elements){
+            $(elements[i]).hide();
+        }
+    }
+
+    function resetGame(){
+        hideElement(['#tableau', '#div-retour', '#game_info' ]);
+        $('#login_form').show();
+        $('#regle').show();
+        game.player1 = null;
+        game.player2 = null;
     }
 
 </script>
