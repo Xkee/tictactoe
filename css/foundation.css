@@ -1870,11 +1870,11 @@ td {
 
 /* Default Link Styles */
 a {
-  color: #5a96fc;
+  color: #ffffff;
   text-decoration: none;
   line-height: inherit; }
   a:hover, a:focus {
-    color: #2b78fb; }
+    color: #ffffff; }
   a img {
     border: none; }
 
