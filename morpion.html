@@ -148,8 +148,7 @@
         console.log('je click');
     });
 
-    $('#div-retour').hide();
-    $tableau.hide();
+	hideElement(['#tableau', '#div-retour']);
 
 
 
@@ -166,12 +165,26 @@
             return false;
         }
 
-        if (game.player1 === null) {
+		function  inject_nom1(joueur)
+		{
+		for (var i in joueur)
+		if (game.player1 === null) {
+            var player1 = new player($joueur, 'O');
+            game.player1 = player1;
+        } else {
+            game.player1.nom = $joueur;
+        }
+		}
+
+		inject_nom1(['#nameplayer1']);
+		
+      /*  if (game.player1 === null) {
             var player1 = new player($nameplayer1, 'O');
             game.player1 = player1;
         } else {
             game.player1.nom = $nameplayer1;
         }
+		*/
         if (game.player2 === null) {
             var player2 = new player($nameplayer2, 'X');
             game.player2 = player2;
@@ -182,18 +195,13 @@
 
         $('#info_player1').html(game.player1.nom + ' - ' + game.player1.symbol);
         $('#info_player2').html(game.player2.nom + ' - ' + game.player2.symbol);
-        $('#div-retour').show();
-        $('#regle').hide();
-        $('#login_form').hide();
-        $tableau.show();
-        $('#game_info').show();
+		
+		showElement(['#div-retour', '#game_info', '#tableau']);
+		hideElement(['#login_form', '#regle']);
+ 
 
 
         var valentin = new player('toto', 'T');
-
-        console.log(valentin);
-
-        console.log(game);
 
         return false;
     }
@@ -203,11 +211,17 @@
             $(elements[i]).hide();
         }
     }
+	
+	function showElement(elements){
+        for (var i in elements){
+            $(elements[i]).show();
+        }
+    }
+	
 
     function resetGame(){
         hideElement(['#tableau', '#div-retour', '#game_info' ]);
-        $('#login_form').show();
-        $('#regle').show();
+		showElement(['#login_form', '#regle']);
         game.player1 = null;
         game.player2 = null;
     }
